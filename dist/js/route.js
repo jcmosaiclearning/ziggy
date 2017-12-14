@@ -7,7 +7,7 @@
 		exports["route"] = factory();
 	else
 		root["route"] = factory();
-})(this, function() {
+})(typeof self !== 'undefined' ? self : this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -113,7 +113,7 @@ var Router = function (_String) {
     _createClass(Router, [{
         key: 'normalizeParams',
         value: function normalizeParams(params) {
-            if (params === undefined) return {};
+            if (typeof params === 'undefined') return {};
 
             params = (typeof params === 'undefined' ? 'undefined' : _typeof(params)) !== 'object' ? [params] : params;
             this.numericParamIndices = Array.isArray(params);
@@ -240,13 +240,13 @@ var UrlBuilder = function () {
         this.name = name;
         this.route = Ziggy.namedRoutes[this.name];
 
-        if (this.name === undefined) {
+        if (typeof this.name === 'undefined') {
             throw new Error('Ziggy Error: You must provide a route name');
-        } else if (this.route === undefined) {
+        } else if (typeof this.route === 'undefined') {
             throw new Error('Ziggy Error: route \'' + this.name + '\' is not found in the route list');
         }
 
-        this.absolute = absolute === undefined ? true : absolute;
+        this.absolute = typeof absolute === 'undefined' ? true : absolute;
         this.domain = this.setDomain();
         this.path = this.route.uri.replace(/^\//, '');
     }
@@ -255,6 +255,10 @@ var UrlBuilder = function () {
         key: 'setDomain',
         value: function setDomain() {
             if (!this.absolute) return '/';
+
+            if (Ziggy.baseUrl) {
+                return Ziggy.baseUrl;
+            }
 
             var host = (this.route.domain || Ziggy.baseDomain).replace(/\/+$/, '');
 

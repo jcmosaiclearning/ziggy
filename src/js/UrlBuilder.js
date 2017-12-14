@@ -19,6 +19,10 @@ class UrlBuilder {
         if (! this.absolute)
             return '/';
 
+        if (Ziggy.baseUrl) {
+          return Ziggy.baseUrl;
+        }
+
         let host = (this.route.domain || Ziggy.baseDomain).replace(/\/+$/, '');
 
         if (Ziggy.basePort && (host.replace(/\/+$/, '') === Ziggy.baseDomain.replace(/\/+$/, '')))
